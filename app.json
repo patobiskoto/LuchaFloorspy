@@ -24,6 +24,9 @@
         },
         "EMBEDDED_DESCRIPTION": {
             "description": "Embedded message description"
+        },
+        "DISCORD_CHANNEL_ID": {
+            "description": "Discord channel id used to send the embedded message"
         }
     }
 }

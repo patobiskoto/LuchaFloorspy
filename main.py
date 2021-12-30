@@ -23,7 +23,7 @@ async def updateEmbeddedMessage():
 
 class Processors:
     async def getBotPinnedMessage():
-        channel = luchaFloors.get_channel(926082397903142933)
+        channel = luchaFloors.get_channel(config["discord_channel_id"])
         pins = await channel.pins()
         for pin in pins:
             if pin.author == luchaFloors.user:
