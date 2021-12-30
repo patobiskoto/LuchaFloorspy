@@ -12,7 +12,7 @@ async def on_ready():
     print('LuchaFloors ready !')
     updateEmbeddedMessage.start()
 
-@tasks.loop(minutes=2.0)
+@tasks.loop(seconds=10.0)
 async def updateEmbeddedMessage():
     print(str(datetime.utcnow()) + ': updateEmbeddedMessage')
     if luchaFloors.is_ready:
