@@ -12,7 +12,7 @@ async def on_ready():
     print('LuchaFloors ready !')
     updateEmbeddedMessage.start()
 
-@tasks.loop(minutes=2.0)
+@tasks.loop(seconds=10.0)
 async def updateEmbeddedMessage():
     print(str(datetime.utcnow()) + ': updateEmbeddedMessage')
     if luchaFloors.is_ready:
@@ -36,7 +36,7 @@ class Processors:
         embed = Embed(title="Lucha Floors", description=config["embedded_description"], colour=0x87CEEB, timestamp=datetime.utcnow())
         i = 0
         while i < 8:
-            embed.add_field(name=str(i) + "T", value=await OpenseaQuerries.findAFloor(str(i)) + " :eth:", inline=False)
+            embed.add_field(name=str(i) + "T", value=str(await OpenseaQuerries.findAFloor(str(i))) + " :eth:", inline=False)
             i = i + 1
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
         return embed
