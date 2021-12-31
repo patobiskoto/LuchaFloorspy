@@ -9,7 +9,7 @@ class OpenseaQuerries:
 
         resp = scraper.get(url=opensea_url)
         if resp.status_code != 200:
-            print("--- status code = " + resp.status_code)
+            print("--- status code = " + str(resp.status_code))
             print(resp.text)
         bswebpage = BeautifulSoup(resp.content, "html.parser")
 
