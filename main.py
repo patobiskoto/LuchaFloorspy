@@ -36,6 +36,7 @@ class Processors:
         embed = Embed(title="Lucha Floors", description=config["embedded_description"], colour=0x87CEEB, timestamp=datetime.utcnow())
         i = 0
         while i < 8:
+            print("-- request for " + str(i) + "T")
             embed.add_field(name=str(i) + "T", value=str(await OpenseaQuerries.findAFloor(str(i))) + " :eth:", inline=False)
             i = i + 1
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
