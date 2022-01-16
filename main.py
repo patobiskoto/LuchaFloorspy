@@ -18,7 +18,7 @@ async def on_ready():
 async def update_task():
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Refreshing..."))
     await Processors.update_bot_status()
-    await Processors.update_embedded_message()
+    await Processors.update_embedded_messages()
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Luchadores floors"))
 
 class Processors:
@@ -30,32 +30,65 @@ class Processors:
             try:
                 await guild.me.edit(nick=str(config["bot_name_prefix"]) + str(stats["stats"]["floor_price"]) + str(config["money_visual"]))
             except Forbidden as ex:
-                print("Error : bot don't have permission in guild " + str(guild.name))
+                print("Error : bot don't have permission to update nick in guild " + str(guild.name))
         
-    async def update_embedded_message():
-        print(str(datetime.utcnow()) + ': update_embedded_message')
+    async def update_embedded_messages():
+        print(str(datetime.utcnow()) + ': update_embedded_messages')
         if luchaFloors.is_ready:
-            messageToUpdate = await Processors._get_bot_pinned_message()
-            await messageToUpdate.edit(embed=await Processors._get_embedded_floors())
-            if messageToUpdate.content == "--init--":
-                await messageToUpdate.edit(content="")
+            await Processors._update_embedded_floors()
+            await Processors._update_embedded_stats()
+            
 
-    async def _get_bot_pinned_message():
+    async def _update_embedded_floors():
+        print(str(datetime.utcnow()) + ': update_embedded_floors')
+        messageToUpdate = await Processors._get_bot_pinned_messages(str(config["embed_title_lucha_floors"]))
+        await messageToUpdate.edit(embed=await Processors._get_embedded_floors())
+        if messageToUpdate.content == "--init--":
+            await messageToUpdate.edit(content="")
+
+    async def _update_embedded_stats():
+        print(str(datetime.utcnow()) + ': _update_embedded_stats')
+        messageToUpdate = await Processors._get_bot_pinned_messages(str(config["embed_title_lucha_stats"]))
+        await messageToUpdate.edit(embed=await Processors._get_embedded_stats())
+        if messageToUpdate.content == "--init--":
+            await messageToUpdate.edit(content="")
+
+    async def _get_bot_pinned_messages(title):
         channel = luchaFloors.get_channel(int(config["discord_channel_id"]))
         pins = await channel.pins()
         for pin in pins:
             if pin.author == luchaFloors.user:
-                return pin
+                if len(pin.embeds) > 0 and pin.embeds[0].title == str(title):
+                    return pin
         sentMessage = await channel.send(content="--init--")
         await sentMessage.pin()
         return sentMessage
-
+    
     async def _get_embedded_floors():
-        embed = Embed(title="Lucha Floors", description=config["embedded_description"], colour=0x87CEEB, timestamp=datetime.utcnow())
+        embed = Embed(title=str(config["embed_title_lucha_floors"]), description=config["embedded_description_floors"], colour=0x87CEEB, timestamp=datetime.utcnow())
         i = 0
         while i < 8:
             embed.add_field(name=str(i) + "T", value=str(await OpenseaQuerries.find_a_floor(str(i))) + str(config["money_visual"]), inline=False)
             i = i + 1
+        embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
+        return embed
+    
+    async def _get_embedded_stats():
+        embed = Embed(title=str(config["embed_title_lucha_stats"]), description=config["embedded_description_stats"], colour=0x87CEEB, timestamp=datetime.utcnow())
+        stats = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
+        embed.add_field(name="7 days", inline=False, value=
+            "Volume: " + str(round(stats['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Change: " + str(round(stats['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(stats['stats']['seven_day_sales'])) + '\r' +
+            "Average price: " + str(round(stats['stats']['seven_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
+        embed.add_field(name="30 days", inline=False, value=
+            "Volume: " + str(round(stats['stats']['thirty_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Change: " + str(round(stats['stats']['thirty_day_change'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(stats['stats']['thirty_day_sales'])) + '\r' +
+            "Average price: " + str(round(stats['stats']['thirty_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
+        embed.add_field(name="All time", inline=False, value=
+            "Volume: " + str(round(stats['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(stats['stats']['total_sales'])) + '\r')
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
         return embed
 
