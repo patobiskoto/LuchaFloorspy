@@ -11,5 +11,9 @@ else:
         "lucha_icon_url": os.environ["LUCHA_ICON_URL"],
         "opensea_api_key": os.environ["OPENSEA_API_KEY"],
         "embedded_description": os.environ["EMBEDDED_DESCRIPTION"],
-        "discord_channel_id": os.environ["DISCORD_CHANNEL_ID"]
+        "discord_channel_id": os.environ["DISCORD_CHANNEL_ID"],
+        "database_url": os.environ["DATABASE_URL"],
+        "money_visual": os.environ["MONEY_VISUAL"],
+        "slug_used": os.environ["SLUG_USED"],
+        "bot_name_prefix": os.environ["BOT_NAME_PREFIX"]
     }
