@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from discord import Embed, Activity, ActivityType
+from discord import Embed, Activity, ActivityType, Forbidden
 from discord.ext import commands, tasks
 from discord.ext.commands.bot import Bot
 
@@ -27,7 +27,10 @@ class Processors:
         print(str(datetime.utcnow()) + ': update_bot_status')
         stats = await OpenseaQuerries.get_collection_stats("luchadores-io")
         for guild in luchaFloors.guilds:
-            await guild.me.edit(nick=str(config["bot_name_prefix"]) + str(stats["stats"]["floor_price"]) + str(config["money_visual"]))
+            try:
+                await guild.me.edit(nick=str(config["bot_name_prefix"]) + str(stats["stats"]["floor_price"]) + str(config["money_visual"]))
+            except Forbidden as ex:
+                print("Error : bot don't have permission in guild " + str(guild.name))
         
     async def update_embedded_message():
         print(str(datetime.utcnow()) + ': update_embedded_message')
