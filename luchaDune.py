@@ -7,7 +7,7 @@ class DuneQuerries:
         dune = DuneAnalytics(str(config["dune_login"]), str(config["dune_pwd"]))
         dune.login()
         dune.fetch_auth_token()
-        result_id = dune.query_result_id(query_id=config["dune_query_hidden_mustache_ids"])
+        result_id = dune.query_result_id(query_id=int(config["dune_query_hidden_mustache_ids"]))
         data = dune.query_result(result_id)
         hidden_mustache_ids = []
         if len(data['data']['get_result_by_result_id']) > 0:
