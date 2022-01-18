@@ -16,26 +16,29 @@ async def on_ready():
 @tasks.loop(minutes=10.0)
 async def update_task():
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Refreshing..."))
-    await Processors.update_embedded_messages()
+    await Processors.update_bot()
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Luchadores floors"))
 
 class Processors:
 
-    async def update_bot_status():
-        print(str(datetime.utcnow()) + ': update_bot_status')
+    async def update_bot():
+        print(str(datetime.utcnow()) + ': update_bot')
+        if luchaFloors.is_ready:
+            await Processors._update_stats_data()
+            await Processors._update_embedded_floors()   
+
+    async def _update_stats_data():
         stats = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
+        await Processors._update_bot_status(stats)
+        await Processors._update_embedded_stats(stats)
+
+    async def _update_bot_status(stats):
+        print(str(datetime.utcnow()) + ': update_bot_status')
         for guild in luchaFloors.guilds:
             try:
                 await guild.me.edit(nick=str(config["bot_name_prefix"]) + str(stats["stats"]["floor_price"]) + str(config["money_visual"]))
             except Forbidden as ex:
-                print("Error : bot don't have permission to update nick in guild " + str(guild.name))
-        
-    async def update_embedded_messages():
-        print(str(datetime.utcnow()) + ': update_embedded_messages')
-        if luchaFloors.is_ready:
-            await Processors._update_embedded_floors()
-            await Processors._update_embedded_stats()
-            
+                print("Error : bot don't have permission to update nick in guild " + str(guild.name))        
 
     async def _update_embedded_floors():
         print(str(datetime.utcnow()) + ': update_embedded_floors')
@@ -44,10 +47,10 @@ class Processors:
         if messageToUpdate.content == "--init--":
             await messageToUpdate.edit(content="")
 
-    async def _update_embedded_stats():
+    async def _update_embedded_stats(stats):
         print(str(datetime.utcnow()) + ': _update_embedded_stats')
         messageToUpdate = await Processors._get_bot_pinned_messages(str(config["embed_title_lucha_stats"]))
-        await messageToUpdate.edit(embed=await Processors._get_embedded_stats())
+        await messageToUpdate.edit(embed=await Processors._get_embedded_stats(stats))
         if messageToUpdate.content == "--init--":
             await messageToUpdate.edit(content="")
 
@@ -72,7 +75,7 @@ class Processors:
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
         return embed
     
-    async def _get_embedded_stats():
+    async def _get_embedded_stats(stats):
         embed = Embed(title=str(config["embed_title_lucha_stats"]), description=config["embedded_description_stats"], colour=0x87CEEB, timestamp=datetime.utcnow())
         stats = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
         embed.add_field(name="7 days", inline=False, value=
