@@ -18,5 +18,10 @@ else:
         "slug_used": os.environ["SLUG_USED"],
         "bot_name_prefix": os.environ["BOT_NAME_PREFIX"],
         "embed_title_lucha_floors": os.environ["EMBED_TITLE_LUCHA_FLOORS"],
-        "embed_title_lucha_stats" : os.environ["EMBED_TITLE_LUCHA_STATS"]
+        "embed_title_lucha_stats" : os.environ["EMBED_TITLE_LUCHA_STATS"],
+        "hidden_mustache_code" : os.environ["HIDDEN_MUSTACHE_CODE"],
+        "dune_login" : os.environ["DUNE_LOGIN"],
+        "dune_pwd" : os.environ["DUNE_PWD"],
+        "dune_query_hidden_mustache_ids" : os.environ["DUNE_QUERY_HIDDEN_MUSTACHE_IDS"],
+        "opensea_assets_contract_address" : os.environ["OPENSEA_ASSETS_CONTRACT_ADDRESS"]
     }

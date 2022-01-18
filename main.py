@@ -2,7 +2,6 @@ from datetime import datetime
 
 from discord import Embed, Activity, ActivityType, Forbidden
 from discord.ext import commands, tasks
-from discord.ext.commands.bot import Bot
 
 from config import config
 from luchaOpensea import OpenseaQuerries
@@ -17,7 +16,6 @@ async def on_ready():
 @tasks.loop(minutes=10.0)
 async def update_task():
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Refreshing..."))
-    await Processors.update_bot_status()
     await Processors.update_embedded_messages()
     await luchaFloors.change_presence(activity=Activity(type=ActivityType.watching, name="Luchadores floors"))
 
@@ -25,7 +23,7 @@ class Processors:
 
     async def update_bot_status():
         print(str(datetime.utcnow()) + ': update_bot_status')
-        stats = await OpenseaQuerries.get_collection_stats("luchadores-io")
+        stats = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
         for guild in luchaFloors.guilds:
             try:
                 await guild.me.edit(nick=str(config["bot_name_prefix"]) + str(stats["stats"]["floor_price"]) + str(config["money_visual"]))
@@ -68,8 +66,9 @@ class Processors:
         embed = Embed(title=str(config["embed_title_lucha_floors"]), description=config["embedded_description_floors"], colour=0x87CEEB, timestamp=datetime.utcnow())
         i = 0
         while i < 8:
-            embed.add_field(name=str(i) + "T", value=str(await OpenseaQuerries.find_a_floor(str(i))) + str(config["money_visual"]), inline=False)
+            embed.add_field(name=str(i) + "T", value=str(await OpenseaQuerries.find_a_floor_per_attr(str(i))) + str(config["money_visual"]), inline=False)
             i = i + 1
+        embed.add_field(name=str(config["hidden_mustache_code"]), value=str(await OpenseaQuerries.get_hidden_mustache_floor()) + str(config["money_visual"]), inline=False)
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
         return embed
     
