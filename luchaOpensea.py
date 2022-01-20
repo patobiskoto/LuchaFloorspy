@@ -28,8 +28,17 @@ class OpenseaQuerries:
                 return floor
 
     async def get_collection_stats(slug):
-        api = OpenseaAPI(apikey=str(config['opensea_api_key']))
-        return api.collection_stats(collection_slug=slug)
+        headers = {
+                "Accept": "application/json",
+                "X-API-KEY": str(config['opensea_api_key']),
+                "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0"
+        }
+
+        url = "https://api.opensea.io/api/v1/collection/"+slug+"/stats"    
+        resp = requests.request("GET", url, headers=headers)
+        return resp.json()
+        #api = OpenseaAPI(apikey=str(config['opensea_api_key']))
+        #return api.collection_stats(collection_slug=slug)
 
     async def get_hidden_mustache_floor():
         prices = []
