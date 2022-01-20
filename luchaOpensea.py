@@ -39,7 +39,8 @@ class OpenseaQuerries:
 
             headers = {
                 "Accept": "application/json",
-                "X-API-KEY": str(config['opensea_api_key'])
+                "X-API-KEY": str(config['opensea_api_key']),
+                "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0"
             }
             
             for batch_ids in split_ids:
