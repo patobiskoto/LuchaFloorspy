@@ -24,7 +24,7 @@ class Processors:
     async def update_bot():
         print(str(datetime.utcnow()) + ': update_bot')
         if luchaFloors.is_ready:
-            await Processors._update_stats_data()
+            #await Processors._update_stats_data()
             await Processors._update_embedded_floors()   
 
     async def _update_stats_data():
