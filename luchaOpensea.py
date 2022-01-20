@@ -10,7 +10,7 @@ class OpenseaQuerries:
     async def find_a_floor_per_attr(nbAttr):
         print("-- request for " + str(nbAttr) + "T")
         headers = {
-            'X-API-KEY':str(config['opensea_api_key']),
+            #'X-API-KEY':str(config['opensea_api_key']),
             'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0'
         }
         opensea_url = "https://opensea.io/collection/luchadores-io?search[numericTraits][0][name]=Attributes&search[numericTraits][0][ranges][0][max]="+nbAttr+"&search[numericTraits][0][ranges][0][min]="+nbAttr+"&search[sortAscending]=true&search[sortBy]=PRICE&search[toggles][0]=BUY_NOW"
@@ -30,7 +30,7 @@ class OpenseaQuerries:
     async def get_collection_stats(slug):
         headers = {
                 "Accept": "application/json",
-                "X-API-KEY": str(config['opensea_api_key']),
+                #"X-API-KEY": str(config['opensea_api_key']),
                 "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0"
         }
 
