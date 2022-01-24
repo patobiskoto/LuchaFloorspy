@@ -18,6 +18,7 @@ class OpenseaQuerries:
         resp = requests.get(url=opensea_url, headers=headers)
         if resp.status_code != 200:
             print("Error. status_code=" + str(resp.status_code))
+            print(resp.text)
             return
         bswebpage = BeautifulSoup(resp.text, "html.parser")
 
