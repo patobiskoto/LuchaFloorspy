@@ -92,7 +92,7 @@ class Processors:
             "Volume: " + str(round(statsLuchadores['stats']['thirty_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsLuchadores['stats']['thirty_day_change'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsLuchadores['stats']['thirty_day_sales'])) + '\r' +
-            "Average price: " + str(round(statsLuchadores['stats']['thirty_day_average_price'], 2)) + '\r')
+            "Average price: " + str(round(statsLuchadores['stats']['thirty_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
         embed.add_field(name="All time", inline=True, value=
             "Volume: " + str(round(statsLuchadores['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsLuchadores['stats']['total_sales'])) + '\r')
