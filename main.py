@@ -82,7 +82,7 @@ class Processors:
         statsPinatas = await OpenseaQuerries.get_collection_stats("luchadores-io-pinatas")
         statsWearables = await OpenseaQuerries.get_collection_stats("luchadores-io-wearables")
 
-        embed.add_field(name='\u200B', inline=False, value='<:luchador:943178477786497064>')
+        embed.add_field(name='\u200B', inline=False, value='<:luchador:922912148013846550>')
         embed.add_field(name="7 days", inline=True, value=
             "Volume: " + str(round(statsLuchadores['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsLuchadores['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
@@ -92,12 +92,12 @@ class Processors:
             "Volume: " + str(round(statsLuchadores['stats']['thirty_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsLuchadores['stats']['thirty_day_change'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsLuchadores['stats']['thirty_day_sales'])) + '\r' +
-            "Average price: " + str(round(statsLuchadores['stats']['thirty_day_average_price'])) + '\r')
+            "Average price: " + str(round(statsLuchadores['stats']['thirty_day_average_price']), 2) + '\r')
         embed.add_field(name="All time", inline=True, value=
             "Volume: " + str(round(statsLuchadores['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsLuchadores['stats']['total_sales'])) + '\r')
         
-        embed.add_field(name='\u200B', inline=False, value='<:cometh_titan:943178477786497064>')
+        embed.add_field(name='\u200B', inline=False, value='<:cometh_titan:936284027634221058>')
         embed.add_field(name="7 days", inline=True, value=
             "Volume: " + str(round(statsWearables['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsWearables['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
@@ -112,7 +112,7 @@ class Processors:
             "Volume: " + str(round(statsWearables['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsWearables['stats']['total_sales'])) + '\r')
 
-        embed.add_field(name='\u200B', inline=False, value='<:lucha_pinata:943178477786497064>')
+        embed.add_field(name='\u200B', inline=False, value='<:lucha_pinata:933304310610165800>')
         embed.add_field(name="7 days", inline=True, value=
             "Volume: " + str(round(statsPinatas['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsPinatas['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
@@ -127,7 +127,7 @@ class Processors:
             "Volume: " + str(round(statsPinatas['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Sales: " + str(round(statsPinatas['stats']['total_sales'])) + '\r')
         
-        embed.add_field(name='\u200B', inline=False, value='<:luchador:943178477786497064> + <:cometh_titan:943178477786497064> + <:lucha_pinata:943178477786497064>')
+        embed.add_field(name='\u200B', inline=False, value='<:luchador:922912148013846550> + <:cometh_titan:936284027634221058> + <:lucha_pinata:933304310610165800>')
         embed.add_field(name="7 days", inline=True, value=
             "Volume: " + str(round(statsLuchadores['stats']['seven_day_volume'] + statsPinatas['stats']['seven_day_volume'] + statsWearables['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
             "Change: " + str(round(statsLuchadores['stats']['seven_day_change'] + statsPinatas['stats']['seven_day_change'] + statsWearables['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
