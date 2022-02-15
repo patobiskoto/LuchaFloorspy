@@ -77,20 +77,22 @@ class Processors:
     
     async def _get_embedded_stats(stats):
         embed = Embed(title=str(config["embed_title_lucha_stats"]), description=config["embedded_description_stats"], colour=0x87CEEB, timestamp=datetime.utcnow())
-        stats = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
+        statsLuchadores = await OpenseaQuerries.get_collection_stats(str(config["slug_used"]))
+        statsPinatas = await OpenseaQuerries.get_collection_stats("luchadores-io-pinatas")
+        statsWearables = await OpenseaQuerries.get_collection_stats("luchadores-io-wearables")
         embed.add_field(name="7 days", inline=False, value=
-            "Volume: " + str(round(stats['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
-            "Change: " + str(round(stats['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
-            "Sales: " + str(round(stats['stats']['seven_day_sales'])) + '\r' +
-            "Average price: " + str(round(stats['stats']['seven_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
+            "Volume: " + str(round(statsLuchadores['stats']['seven_day_volume'] + statsPinatas['stats']['seven_day_volume'] + statsWearables['stats']['seven_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Change: " + str(round(statsLuchadores['stats']['seven_day_change'] + statsPinatas['stats']['seven_day_change'] + statsWearables['stats']['seven_day_change'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(statsLuchadores['stats']['seven_day_sales'] + statsPinatas['stats']['seven_day_sales'] + statsWearables['stats']['seven_day_sales'])) + '\r' +
+            "Average price: " + str(round(statsLuchadores['stats']['seven_day_average_price'] + statsPinatas['stats']['seven_day_average_price'] + statsWearables['stats']['seven_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
         embed.add_field(name="30 days", inline=False, value=
-            "Volume: " + str(round(stats['stats']['thirty_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
-            "Change: " + str(round(stats['stats']['thirty_day_change'], 2)) + str(config["money_visual"]) + '\r' +
-            "Sales: " + str(round(stats['stats']['thirty_day_sales'])) + '\r' +
-            "Average price: " + str(round(stats['stats']['thirty_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
+            "Volume: " + str(round(statsLuchadores['stats']['thirty_day_volume'] + statsPinatas['stats']['thirty_day_volume'] + statsWearables['stats']['thirty_day_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Change: " + str(round(statsLuchadores['stats']['thirty_day_change'] + statsPinatas['stats']['thirty_day_change'] + statsWearables['stats']['thirty_day_change'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(statsLuchadores['stats']['thirty_day_sales'] + statsPinatas['stats']['thirty_day_sales'] + statsWearables['stats']['thirty_day_sales'])) + '\r' +
+            "Average price: " + str(round(statsLuchadores['stats']['thirty_day_average_price'] + statsPinatas['stats']['thirty_day_average_price'] + statsWearables['stats']['thirty_day_average_price'], 2)) + str(config["money_visual"]) + '\r')
         embed.add_field(name="All time", inline=False, value=
-            "Volume: " + str(round(stats['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
-            "Sales: " + str(round(stats['stats']['total_sales'])) + '\r')
+            "Volume: " + str(round(statsLuchadores['stats']['total_volume'] + statsPinatas['stats']['total_volume'] + statsWearables['stats']['total_volume'], 2)) + str(config["money_visual"]) + '\r' +
+            "Sales: " + str(round(statsLuchadores['stats']['total_sales'] + statsPinatas['stats']['total_sales'] + statsWearables['stats']['total_sales'])) + '\r')
         embed.set_footer(text="luchadores.io", icon_url=config["lucha_icon_url"])
         return embed
 
